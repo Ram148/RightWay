@@ -118,7 +118,54 @@ var scXY = new Array(50)
 
 var endSector=10
 
+var pyZ = new Array(50)                           
+for (ia=0; ia<50; ia++){
+ pyZ[ia]=0
+}
 
+function interval1(){
+ clearTimeout(timerID)
+ //time count
+ scr=scr+1
+ pscr=scr/10
+ tmpscr=scr-parseInt(pscr)*10
+ tmpSC0=""
+
+
+  if (tmpscr==0){tmpSC0=".0"}
+ document.forms[1].elements[0].value = pscr+tmpSC0
+  tmpVspeed=parseInt(speed*60)
+ document.forms[0].elements[0].value = tmpVspeed
+ tmpSec0=parseInt((sector+1)/10)
+ tmpSec1=sector+1-tmpSec0*10
+ if (document.getElementById){
+  document.getElementById("N0").style.top =  tmpSec0*1000+1000
+  document.getElementById("N1").style.top =  tmpSec1*1000+1000
+ }else{
+  N0.style.top=tmpSec0*1000+1000
+  N1.style.top=tmpSec1*1000+1000
+ }
+
+
+ showMap()
+ keyLR=keyL+keyR
+
+
+ if (keyX!=0){
+  if (keyLR!=0){
+   if (speed!=0){
+    drift=drift+keyLR*2
+   }
+  }
+ }
+ if (speed==0){myA=myA+drift;drift=0}
+ if (speed!=0){myA=myA+keyLR*(6+keyX*2-keyZ*3)+drift*.1;drift=drift*.9}
+ if (myA>180){myA=myA-360}
+ if (myA<-180){myA=myA+360}
+ myVa=myA+drift
+ if (myVa>180){myVa=myVa-360}
+ if (myVa<-180){myVa=myVa+360}
+ 
 </SCRIPT>
 </HEAD>
 <HTML>

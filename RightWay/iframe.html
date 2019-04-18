@@ -166,6 +166,15 @@ function interval1(){
  if (myVa>180){myVa=myVa-360}
  if (myVa<-180){myVa=myVa+360}
  
+ // speed change
+ tmpOldSpeed=speed
+ speed=Math.sqrt(speed*speed+keyZ*power)
+ tmpSP=1
+ if (speed<.5){tmpSP=.3}
+ tmpBp=speed*speed-keyX*Bpower*tmpSP-drag
+ if (tmpBp<=0){tmpBp=0}
+ speed=Math.sqrt(tmpBp)
+ 
 </SCRIPT>
 </HEAD>
 <HTML>

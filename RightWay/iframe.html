@@ -175,6 +175,87 @@ function interval1(){
  if (tmpBp<=0){tmpBp=0}
  speed=Math.sqrt(tmpBp)
  
+ 
+ // surface level change
+ if (tmpOldSpeed<speed){
+  level=125
+ }else{
+  if (tmpOldSpeed==speed){
+   level= 120
+  }else{
+   if (keyX!=0){level= 115}else{level=120}
+  }
+ }
+
+
+ oldmyX=myX;oldmyY=myY
+ myX=myX+speed*Math.sin(myA/180*Math.PI)
+ myY=myY+speed*Math.cos(myA/180*Math.PI)
+ secCHK(sector)
+
+ if (sector<endSector-1){
+  tmpSec=sector
+  sector=49
+  secCHK(49)
+  if (sector!=50){sector=tmpSec}
+ }
+
+ showPylon(myX,myY,myVa)
+
+
+ CourseOutCHK()
+
+ if (sector>=endSector){startFLG=0}
+
+ if (startFLG==1){
+
+   timerID = setTimeout("interval1()",timerINT)
+ }else{
+
+
+   myX=0
+   myY=0
+   myA=0
+   scr=0
+   speed=0
+   level=120
+   drift=0
+   myVa=0
+
+  if (sector<endSector){
+   if (document.getElementById){
+    document.getElementById("OUT").style.top =  96
+    document.getElementById("BTN").style.top =  140
+    document.getElementById("arrow").style.top = 4
+   }else{
+    OUT.style.top=96
+    BTN.style.top=140
+    arrow.style.top=4
+   }
+  }else{
+   if (document.getElementById){
+    if (sector==50){
+     document.getElementById("miss").style.top =  96
+    }else{
+     document.getElementById("GOAL").style.top =  96
+    }
+    document.getElementById("BTN").style.top =  140
+    document.getElementById("arrow").style.top = 4
+   }else{
+    if (sector==50){
+     miss.style.top=96
+    }else{
+     GOAL.style.top=96
+    }
+    BTN.style.top=140
+    arrow.style.top=4
+   }
+  }
+
+ }
+
+}
+ 
 </SCRIPT>
 </HEAD>
 <HTML>

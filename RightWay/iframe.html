@@ -262,6 +262,76 @@ function onLD(){
  showPylon(myX,myY,myVa)
 }
  
+function initG(){
+ showPylon(myX,myY,myVa)
+ showMap() 
+ startFLG=1
+ keyL=0
+ keyR=0
+ oldmyX=0
+ oldmyY=0
+ sector=0
+
+ if (document.getElementById){
+  document.getElementById("startMES").style.top =  -1000
+  document.getElementById("BTN").style.top =  -1000
+  document.getElementById("T3").style.top =  96
+  document.getElementById("OUT").style.top =  -1000
+  document.getElementById("miss").style.top =  -1000
+  document.getElementById("GOAL").style.top =  -1000
+  document.getElementById("infoCP").style.top = 220
+  document.getElementById("N0").style.top =  1000
+  document.getElementById("N1").style.top =  2000
+ }else{
+  startMES.style.top=-1000
+  BTN.style.top=-1000
+  T3.style.top=96
+  OUT.style.top=-1000
+  miss.style.top=-1000
+  GOAL.style.top=-1000
+  infoCP.style.top= 220
+  N0.style.top= 1000
+  N1.style.top= 2000
+ }
+ timerID = setTimeout("T3R()",1000)
+}
+
+
+function T3R(){
+ if (document.getElementById){
+  document.getElementById("T3").style.top =  -1000
+  document.getElementById("T2").style.top =  96
+ }else{
+  T3.style.top=-1000
+  T2.style.top=96
+ }
+ timerID = setTimeout("T2R()",1000)
+}
+
+
+function T2R(){
+ if (document.getElementById){
+  document.getElementById("T2").style.top =  -1000
+  document.getElementById("T1").style.top =  96
+ }else{
+  T2.style.top=-1000
+  T1.style.top=96
+ }
+ timerID = setTimeout("T1R()",1000)
+}
+
+// 1sec before
+function T1R(){
+ if (document.getElementById){
+  document.getElementById("arrow").style.top =  -1000
+  document.getElementById("T1").style.top =  -1000
+ }else{
+  arrow.style.top=-1000
+  T1.style.top=-1000
+ }
+ timerID = setTimeout("interval1()",1)
+}
+ 
 </SCRIPT>
 </HEAD>
 <HTML>

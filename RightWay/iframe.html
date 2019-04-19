@@ -331,6 +331,54 @@ function T1R(){
  }
  timerID = setTimeout("interval1()",1)
 }
+
+ // KEY DOWN
+function keyDown(DnEvents){
+ if (document.all){
+  k=window.event.keyCode
+ }else{
+  k=DnEvents.which
+ }
+
+  if (k == 68){keyR=1}                          
+  if (k == 102){keyR=1}                        
+  if (k == 39){keyR=1}                        
+
+  if (k == 65){keyL=-1}                         
+  if (k == 100){keyL=-1}                        
+  if (k == 37){keyL=-1}                         
+
+  if (k == 87){keyZ=1}                          
+  if (k == 122){keyZ=1}                         
+
+  if (k == 83){keyX=1}                          
+  if (k == 120){keyX=1}                         
+
+  if (k == 83){if (startFLG==0){initG()}}       
+  if (k == 115){if (startFLG==0){initG()}}      
+
+
+}
+
+// KEY UP
+function keyUp(UpEvents){
+ if (document.all){
+  k=window.event.keyCode
+ }else{
+  k=UpEvents.which
+ }
+  if (k == 102){keyR=0}                         
+  if (k == 68 ){keyR=0}                         
+  if (k == 100){keyL=0}                         
+  if (k == 65 ){keyL=0}                         
+  if (k == 37 ){keyL=0}                         
+  if (k == 39 ){keyR=0}                         
+  if (k == 87){keyZ=0}                          
+  if (k == 122){keyZ=0}                         
+  if (k == 83){keyX=0}                          
+  if (k == 120){keyX=0}                         
+
+}
  
 </SCRIPT>
 </HEAD>

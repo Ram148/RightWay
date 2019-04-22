@@ -118,6 +118,7 @@ var scXY = new Array(50)
 
 var endSector=10
 
+
 var pyZ = new Array(50)                           
 for (ia=0; ia<50; ia++){
  pyZ[ia]=0
@@ -165,7 +166,7 @@ function interval1(){
  myVa=myA+drift
  if (myVa>180){myVa=myVa-360}
  if (myVa<-180){myVa=myVa+360}
- 
+
  // speed change
  tmpOldSpeed=speed
  speed=Math.sqrt(speed*speed+keyZ*power)
@@ -174,8 +175,7 @@ function interval1(){
  tmpBp=speed*speed-keyX*Bpower*tmpSP-drag
  if (tmpBp<=0){tmpBp=0}
  speed=Math.sqrt(tmpBp)
- 
- 
+
  // surface level change
  if (tmpOldSpeed<speed){
   level=125
@@ -255,7 +255,402 @@ function interval1(){
  }
 
 }
- 
+
+...................................................................................................
+
+function onLD(){
+ if (document.all){window.focus()}
+ a=0
+ showPylon(myX,myY,myVa)
+}
+
+function initG(){
+ showPylon(myX,myY,myVa)
+ showMap() 
+ startFLG=1
+ keyL=0
+ keyR=0
+ oldmyX=0
+ oldmyY=0
+ sector=0
+
+ if (document.getElementById){
+  document.getElementById("startMES").style.top =  -1000
+  document.getElementById("BTN").style.top =  -1000
+  document.getElementById("T3").style.top =  96
+  document.getElementById("OUT").style.top =  -1000
+  document.getElementById("miss").style.top =  -1000
+  document.getElementById("GOAL").style.top =  -1000
+  document.getElementById("infoCP").style.top = 220
+  document.getElementById("N0").style.top =  1000
+  document.getElementById("N1").style.top =  2000
+ }else{
+  startMES.style.top=-1000
+  BTN.style.top=-1000
+  T3.style.top=96
+  OUT.style.top=-1000
+  miss.style.top=-1000
+  GOAL.style.top=-1000
+  infoCP.style.top= 220
+  N0.style.top= 1000
+  N1.style.top= 2000
+ }
+ timerID = setTimeout("T3R()",1000)
+}
+
+
+function T3R(){
+ if (document.getElementById){
+  document.getElementById("T3").style.top =  -1000
+  document.getElementById("T2").style.top =  96
+ }else{
+  T3.style.top=-1000
+  T2.style.top=96
+ }
+ timerID = setTimeout("T2R()",1000)
+}
+
+
+function T2R(){
+ if (document.getElementById){
+  document.getElementById("T2").style.top =  -1000
+  document.getElementById("T1").style.top =  96
+ }else{
+  T2.style.top=-1000
+  T1.style.top=96
+ }
+ timerID = setTimeout("T1R()",1000)
+}
+
+// 1sec before
+function T1R(){
+ if (document.getElementById){
+  document.getElementById("arrow").style.top =  -1000
+  document.getElementById("T1").style.top =  -1000
+ }else{
+  arrow.style.top=-1000
+  T1.style.top=-1000
+ }
+ timerID = setTimeout("interval1()",1)
+}
+
+
+// KEY DOWN
+function keyDown(DnEvents){
+ if (document.all){
+  k=window.event.keyCode
+ }else{
+  k=DnEvents.which
+ }
+
+  if (k == 68){keyR=1}                          //6
+  if (k == 102){keyR=1}                         //6
+  if (k == 39){keyR=1}                          //Right arrow
+
+  if (k == 65){keyL=-1}                         //4
+  if (k == 100){keyL=-1}                        //4
+  if (k == 37){keyL=-1}                         //Left arrow
+
+  if (k == 87){keyZ=1}                          //Z
+  if (k == 122){keyZ=1}                         //z
+
+  if (k == 83){keyX=1}                          //X
+  if (k == 120){keyX=1}                         //x
+
+  if (k == 83){if (startFLG==0){initG()}}       //S
+  if (k == 115){if (startFLG==0){initG()}}      //s
+
+
+}
+
+// KEY UP
+function keyUp(UpEvents){
+ if (document.all){
+  k=window.event.keyCode
+ }else{
+  k=UpEvents.which
+ }
+  if (k == 102){keyR=0}                         //6
+  if (k == 68 ){keyR=0}                         //6
+  if (k == 100){keyL=0}                         //4
+  if (k == 65 ){keyL=0}                         //4
+  if (k == 37 ){keyL=0}                         //Left arrow
+  if (k == 39 ){keyR=0}                         //Right arrow
+  if (k == 87){keyZ=0}                          //Z
+  if (k == 122){keyZ=0}                         //z
+  if (k == 83){keyX=0}                          //X
+  if (k == 120){keyX=0}                         //x
+
+}
+
+
+//show map
+function showMap(){
+  if (document.getElementById){
+   document.getElementById("star").style.top =  54-myY
+   document.getElementById("star").style.left =  499+myX
+  }else{
+   star.style.top=54-myY
+   star.style.left=499+myX
+  }
+}
+
+
+// show pylon ( EyePoint_X, Y, Angle )
+function showPylon(epX,epY,epA){
+ // surface rewrite
+ if (document.getElementById){
+  document.getElementById("Surface").style.top =  level
+ }else{
+  Surface.style.top=level
+ }
+
+
+ // distance
+ for (ia=0; ia<wood+pylon; ia++){
+  ttaX=pyX[ia]-epX
+  ttaY=pyY[ia]-epY
+  pyZ[ia]=Math.sqrt(ttaX*ttaX+ttaY*ttaY)
+ }
+
+ // sort pylon
+ for (ia=wood; ia<wood+pylon-1; ia++){
+  for (ib=ia; ib<wood+pylon; ib++){
+   if (pyZ[ia]<pyZ[ib]){
+    tmpS=pyZ[ia];pyZ[ia]=pyZ[ib];pyZ[ib]=tmpS
+    tmpS=pyX[ia];pyX[ia]=pyX[ib];pyX[ib]=tmpS
+    tmpS=pyY[ia];pyY[ia]=pyY[ib];pyY[ib]=tmpS
+   }
+  }
+ }
+
+ // sort wood
+ for (ia=0; ia<wood-1; ia++){
+  for (ib=ia; ib<wood; ib++){
+   if (pyZ[ia]<pyZ[ib]){
+    tmpS=pyZ[ia];pyZ[ia]=pyZ[ib];pyZ[ib]=tmpS
+    tmpS=pyX[ia];pyX[ia]=pyX[ib];pyX[ib]=tmpS
+    tmpS=pyY[ia];pyY[ia]=pyY[ib];pyY[ib]=tmpS
+   }
+  }
+ }
+
+
+
+ //  co-ordinate calc
+ for (ia=0; ia<wood+pylon; ia++){
+  ttaX=pyX[ia]-epX
+  ttaY=pyY[ia]-epY
+  tmpA=Math.atan2(ttaX,ttaY)*180/Math.PI-epA
+  if (tmpA>180){tmpA=tmpA-360}
+  if (tmpA<-180){tmpA=tmpA+360}
+  tmpA=tmpA*6.2
+  tmpT=Math.atan2(4,pyZ[ia])*180/Math.PI*1.78
+
+  if (ia<wood){
+     // wood image rewrite
+   pXX=tmpT*2.5
+   imgZoom(ia,pXX,tmpT*6)
+   imgMove(ia,tmpA+280-pXX/2,level-tmpT*4.66666666)
+  }else{
+     // pylon image rewrite
+   pXX=tmpT/2.5
+   imgZoom(ia,pXX,tmpT)
+   imgMove(ia,tmpA+280-pXX/2,tmpT/3+level)
+  }
+
+ }
+
+}
+
+// Course Out Check
+function CourseOutCHK(){
+ if (myX<-5){startFLG=0}
+ if (myX>45){startFLG=0}
+ if (myY<-10){startFLG=0}
+ if (myY>50){startFLG=0}
+}
+
+// Sector check
+function secCHK(chNo){
+
+ if (scXY[chNo]=="Y+"){
+  if (oldmyY<=scY1[chNo]){
+   if (myY>scY1[chNo]){
+    tmpXR=(oldmyX-myX)*(scY1[chNo]-myY)/(oldmyY-myY)+myX
+    
+     if (tmpXR>scX1[chNo]){
+      if (tmpXR<scX2[chNo]){
+       sector=sector+1
+      }
+     }
+    
+   }
+  }
+ }
+
+ if (scXY[chNo]=="Y-"){
+  if (oldmyY>=scY1[chNo]){
+   if (myY<scY1[chNo]){
+    tmpXR=(oldmyX-myX)*(scY1[chNo]-myY)/(oldmyY-myY)+myX
+    
+     if (tmpXR>scX1[chNo]){
+      if (tmpXR<scX2[chNo]){
+       sector=sector+1
+      }
+     }
+    
+   }
+  }
+ }
+
+ if (scXY[chNo]=="X+"){
+  if (oldmyX<=scX1[chNo]){
+   if (myX>scX1[chNo]){
+    tmpYR=(oldmyY-myY)*(scX1[chNo]-myX)/(oldmyX-myX)+myY
+     if (tmpYR>scY1[chNo]){
+      if (tmpYR<scY2[chNo]){
+       sector=sector+1
+      }
+     }
+    
+   }
+  }
+ }
+
+ if (scXY[chNo]=="X-"){
+  if (oldmyX>=scX1[chNo]){
+   if (myX<scX1[chNo]){
+    tmpYR=(oldmyY-myY)*(scX1[chNo]-myX)/(oldmyX-myX)+myY
+     if (tmpYR>scY1[chNo]){
+      if (tmpYR<scY2[chNo]){
+       sector=sector+1
+      }
+     }
+    
+   }
+  }
+ }
+
+}
+
+// IMAGE MOVE ( ImageNo, co-ordinate_X, co-ordinate_Y )
+function imgMove(mId,mX,mY){
+  document.images[mId].style.top=mY
+  document.images[mId].style.left=mX
+}
+
+// IMAGE ZOOM ( ImageNo, ZoomSize_X, ZoomSize_Y )
+function imgZoom(zId,zX,zY){
+  document.images[zId].style.width=zX
+  document.images[zId].style.height=zY
+}
+
+// KEY EVENT SETUP
+ document.onkeydown = keyDown
+ document.onkeyup = keyUp
+
+//-->
 </SCRIPT>
 </HEAD>
+
+<BODY ONLOAD="onLD()">
+
+<DIV ID="GameWindow"
+ STYLE="position:absolute; background-color:#7FBFFF;
+ top:0px; left:0px; width:560px; height:240px;
+ clip:rect(0,560,240,0)">
+ <DIV ID="Surface"
+  STYLE="position:absolute; background-color:#7F7F7F;
+  top:120px; left:0px; width:560px; height:150px;
+  clip:rect(0,560,150,0)">
+</DIV>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+for (ia=0; ia<wood; ia++){
+document.write('<IMG ID="'+ia+'" src="img/wood.gif" alt="pylon" STYLE="position:absolute; top:-1000px; left:280px; width:40px; height:100px">')
+}
+for (ia=wood; ia<wood+pylon; ia++){
+document.write('<IMG ID="'+ia+'" src="img/pylon.gif" alt="pylon" STYLE="position:absolute; top:-1000px; left:280px; width:40px; height:100px">')
+}
+//-->
+</SCRIPT>
+
+
+
+</DIV>
+
+<DIV ID="startMES" STYLE="position:absolute; top:150; left:200;
+ font-size:16px; color:#3F0000">
+<B>Управление клавиатурой</B><BR>
+<LI>Газ - Z<BR>
+<LI>Тормоз - Х<BR>
+<LI>Лево-право - 4-6<BR>
+
+</DIV>
+<DIV ID="SPD"><FORM>Скорость<INPUT TYPE="text" size="6" value=""></FORM></DIV>
+<DIV ID="TIM"><FORM>Время<INPUT TYPE="text" size="6" value=""></FORM></DIV>
+<DIV ID="BTN"><FORM><INPUT TYPE="button" value="Старт" ONCLICK="initG()"></FORM></DIV>
+
+<DIV ID="T3">3</DIV>
+<DIV ID="T2">2</DIV>
+<DIV ID="T1">1</DIV>
+
+<DIV ID="OUT">Неправильный курс</DIV>
+<DIV ID="GOAL">Отлично!</DIV>
+<DIV ID="miss">Неправильный курс</DIV>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+for (ia=0; ia<wood; ia++){
+tmpDX=pyX[ia]+5+497;tmpDY=70-pyY[ia]-15+2
+document.write('<DIV STYLE="position:absolute; background-color:#007F00; top:'+tmpDY+'px; left:'+tmpDX+'px; width:2px; height:2px; clip:rect(0,2,2,0)"></DIV>')
+}
+for (ia=wood; ia<wood+pylon; ia++){
+tmpDX=pyX[ia]+5+497;tmpDY=70-pyY[ia]-15+2
+document.write('<DIV STYLE="position:absolute; background-color:#CF0000; top:'+tmpDY+'px; left:'+tmpDX+'px; width:2px; height:2px; clip:rect(0,2,2,0)"></DIV>')
+}
+//-->
+</SCRIPT>
+<DIV ID="arrow" STYLE="position:absolute;top:4px; left:499px">
+<IMG SRC="img/arrow.gif" STYLE="position:absolute;top:0px; left:0px">
+</DIV>
+
+<DIV ID="star" STYLE="position:absolute;top:54px; left:499px">
+<IMG SRC="img/star.gif" STYLE="position:absolute;top:0px; left:0px; width:8; height:8">
+</DIV>
+
+<DIV ID="N0">
+ <DIV  STYLE="position:absolute;top:-9780px; left:208px">9</DIV>
+ <DIV  STYLE="position:absolute;top:-8780px; left:208px">8</DIV>
+ <DIV  STYLE="position:absolute;top:-7780px; left:208px">7</DIV>
+ <DIV  STYLE="position:absolute;top:-6780px; left:208px">6</DIV>
+ <DIV  STYLE="position:absolute;top:-5780px; left:208px">5</DIV>
+
+ <DIV  STYLE="position:absolute;top:-4780px; left:208px">4</DIV>
+ <DIV  STYLE="position:absolute;top:-3780px; left:208px">3</DIV>
+ <DIV  STYLE="position:absolute;top:-2780px; left:208px">2</DIV>
+ <DIV  STYLE="position:absolute;top:-1780px; left:208px">1</DIV>
+ <DIV  STYLE="position:absolute;top:-780px; left:208px">0</DIV>
+</DIV>
+
+<DIV ID="N1">
+ <DIV  STYLE="position:absolute;top:-9780px; left:216px">9</DIV>
+ <DIV  STYLE="position:absolute;top:-8780px; left:216px">8</DIV>
+ <DIV  STYLE="position:absolute;top:-7780px; left:216px">7</DIV>
+ <DIV  STYLE="position:absolute;top:-6780px; left:216px">6</DIV>
+ <DIV  STYLE="position:absolute;top:-5780px; left:216px">5</DIV>
+
+ <DIV  STYLE="position:absolute;top:-4780px; left:216px">4</DIV>
+ <DIV  STYLE="position:absolute;top:-3780px; left:216px">3</DIV>
+ <DIV  STYLE="position:absolute;top:-2780px; left:216px">2</DIV>
+ <DIV  STYLE="position:absolute;top:-1780px; left:216px">1</DIV>
+ <DIV  STYLE="position:absolute;top:-780px; left:216px">0</DIV>
+</DIV>
+
+<DIV ID="infoCP"></DIV>
+
+
+</BODY>
 <HTML>

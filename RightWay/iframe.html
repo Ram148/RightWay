@@ -3,6 +3,18 @@
 <TITLE></TITLE>
  <STYLE type="text/css">
 
+/**
+*Расположение элементов на экране
+*@ DIV#SPD	СКОРОСТЬ ТЕКСТ
+*@ DIV#TIM	ВРЕМЯ
+*@ DIV#BTN	НАЧАТЬ
+*@ DIV#T3,T2,T1	СТАРТ
+*@ DIV#OUT	ПОРАЖЕНИЕ
+*@ DIV#GOAL	ПОБЕДА
+*@ DIV#infoCP	НАЗВАНИЕ
+*@ DIV#N0	ПОЛЕ СКОРОСТИ
+*@ DIV#N1	ПОЛЕ ВРЕМЕНИ
+*/
   DIV#SPD {position:absolute; top:210; left:5;
            font-size:16px; color:#3F3F3F}
   DIV#TIM {position:absolute; top:210; left:440;
@@ -32,6 +44,11 @@
 
 <SCRIPT LANGUAGE="JavaScript">
 <!--
+
+/**
+*Все переменные - скорость, таймер, стартовая точка, радиусы деревьев,
+*столбов, занос и т.д.
+*/
 var timerID = null
 var timerINT = 100                                
 var scr=0                                       
@@ -57,6 +74,9 @@ var level=120
 var drift=0
 var sector=0
 
+/**
+*Координаты столбов
+*/
 var pyX = new Array(50)                           
 var pyY = new Array(50)                           
  pyX[0]=-5; pyY[0]=0
@@ -97,6 +117,10 @@ var pyY = new Array(50)
  pyX[30]=5;  pyY[30]=40
  pyX[31]=15; pyY[31]=20
 
+/**
+*Кооринаты деревьев
+*/
+
 var scX1 = new Array(50)                        
 var scY1 = new Array(50)
 var scX2 = new Array(50)
@@ -118,21 +142,29 @@ var scXY = new Array(50)
 
 var endSector=10
 
-
+/**
+*Трёхмерность столба
+*/
 var pyZ = new Array(50)                           
 for (ia=0; ia<50; ia++){
  pyZ[ia]=0
 }
 
+/**
+*Подсчёт времени
+*/
 function interval1(){
  clearTimeout(timerID)
- //time count
  scr=scr+1
  pscr=scr/10
  tmpscr=scr-parseInt(pscr)*10
  tmpSC0=""
 
-
+/**
+*Набор скорости и торможение
+*@ tmpscr	ТЕКУЩАЯ СКОРОСТЬ
+*@ tmpVspeed	РАЗГОН/ТОРМОЖЕНИЕ
+*/
   if (tmpscr==0){tmpSC0=".0"}
  document.forms[1].elements[0].value = pscr+tmpSC0
   tmpVspeed=parseInt(speed*60)
@@ -151,7 +183,12 @@ function interval1(){
  showMap()
  keyLR=keyL+keyR
 
-
+/**
+*Занос при повороте
+*@ drift	НЕКОНТРОЛИРУЕМЫЙ ПОВОРОТ ЭКРАНА
+*@ myA		УГОЛ ПОВОРОТА
+*@ myVa		СМЯГЧЕНИЕ ПРИ ПЕРЕБОРЕ
+*/
  if (keyX!=0){
   if (keyLR!=0){
    if (speed!=0){
@@ -167,7 +204,9 @@ function interval1(){
  if (myVa>180){myVa=myVa-360}
  if (myVa<-180){myVa=myVa+360}
 
- // speed change
+/**
+*Изменение скорости
+*/
  tmpOldSpeed=speed
  speed=Math.sqrt(speed*speed+keyZ*power)
  tmpSP=1
@@ -176,7 +215,12 @@ function interval1(){
  if (tmpBp<=0){tmpBp=0}
  speed=Math.sqrt(tmpBp)
 
- // surface level change
+/**
+*Покачивание камеры
+*Чем резче торможение, тем больше качает
+*@ myX	ПАРАМЕТР УГЛА КАЧАНИЯ Х
+*@ myY	ПАРАМЕТР УГЛА КАЧАНИЯ Y
+*/
  if (tmpOldSpeed<speed){
   level=125
  }else{
@@ -200,9 +244,15 @@ function interval1(){
   if (sector!=50){sector=tmpSec}
  }
 
+/**
+*Показать столб при изменении координат (движении)
+*/
  showPylon(myX,myY,myVa)
 
-
+/**
+*Сколько столбов пройдено
+*@ startFLG	ВОТ ЭТИ БЕЛЫЕ ЦИФРЫ ВНИЗУ ПОСЕРЕДИНЕ ЭКРАНА
+*/
  CourseOutCHK()
 
  if (sector>=endSector){startFLG=0}
@@ -222,6 +272,9 @@ function interval1(){
    drift=0
    myVa=0
 
+/**
+*Стартовый экран (перезагрузка)
+*/
   if (sector<endSector){
    if (document.getElementById){
     document.getElementById("OUT").style.top =  96
@@ -256,7 +309,9 @@ function interval1(){
 
 }
 
-...................................................................................................
+/**
+*Обновление столбов
+*/
 
 function onLD(){
  if (document.all){window.focus()}
@@ -264,6 +319,9 @@ function onLD(){
  showPylon(myX,myY,myVa)
 }
 
+/**
+*Показывание пространства
+*/
 function initG(){
  showPylon(myX,myY,myVa)
  showMap() 
@@ -273,7 +331,9 @@ function initG(){
  oldmyX=0
  oldmyY=0
  sector=0
-
+/**
+*Стартовое положение вспомогательных элементов
+*/
  if (document.getElementById){
   document.getElementById("startMES").style.top =  -1000
   document.getElementById("BTN").style.top =  -1000
@@ -298,6 +358,12 @@ function initG(){
  timerID = setTimeout("T3R()",1000)
 }
 
+/**
+*Отсчёт до старта (3!2!1!)
+*@ T3R	3!
+*@ T2R	2!
+*@ T1R	1!
+*/
 
 function T3R(){
  if (document.getElementById){
@@ -322,7 +388,6 @@ function T2R(){
  timerID = setTimeout("T1R()",1000)
 }
 
-// 1sec before
 function T1R(){
  if (document.getElementById){
   document.getElementById("arrow").style.top =  -1000
@@ -334,8 +399,23 @@ function T1R(){
  timerID = setTimeout("interval1()",1)
 }
 
-
+/**
+*Нажатие клавиш 
+*@
+*@
+*@
+*@
+*/
 // KEY DOWN
+*@ 87	W
+*@ 65	A
+*@ 83	S
+*@ 68	D
+*@ 39 	Альтернативное вправо
+*@ 37	Альтернативное влево
+*@ 100	Влево на правой цифровой клавиатуре
+*@ 102	Вправо на правой цифровой клавиатуре
+*@ 	Остальные коды - управление клавишами F. Забыть и не трогать
 function keyDown(DnEvents){
  if (document.all){
   k=window.event.keyCode
@@ -343,48 +423,50 @@ function keyDown(DnEvents){
   k=DnEvents.which
  }
 
-  if (k == 68){keyR=1}                          //6
-  if (k == 102){keyR=1}                         //6
-  if (k == 39){keyR=1}                          //Right arrow
+  if (k == 68){keyR=1}                     
+  if (k == 102){keyR=1}                         
+  if (k == 39){keyR=1}                         
 
-  if (k == 65){keyL=-1}                         //4
-  if (k == 100){keyL=-1}                        //4
-  if (k == 37){keyL=-1}                         //Left arrow
+  if (k == 65){keyL=-1}                       
+  if (k == 100){keyL=-1}                      
+  if (k == 37){keyL=-1}                        
 
-  if (k == 87){keyZ=1}                          //Z
-  if (k == 122){keyZ=1}                         //z
+  if (k == 87){keyZ=1}                          
+  if (k == 122){keyZ=1}                         
 
-  if (k == 83){keyX=1}                          //X
-  if (k == 120){keyX=1}                         //x
+  if (k == 83){keyX=1}                          
+  if (k == 120){keyX=1}                        
 
-  if (k == 83){if (startFLG==0){initG()}}       //S
-  if (k == 115){if (startFLG==0){initG()}}      //s
+  if (k == 83){if (startFLG==0){initG()}}       
+  if (k == 115){if (startFLG==0){initG()}}      
 
 
 }
 
-// KEY UP
 function keyUp(UpEvents){
  if (document.all){
   k=window.event.keyCode
  }else{
   k=UpEvents.which
  }
-  if (k == 102){keyR=0}                         //6
-  if (k == 68 ){keyR=0}                         //6
-  if (k == 100){keyL=0}                         //4
-  if (k == 65 ){keyL=0}                         //4
-  if (k == 37 ){keyL=0}                         //Left arrow
-  if (k == 39 ){keyR=0}                         //Right arrow
-  if (k == 87){keyZ=0}                          //Z
-  if (k == 122){keyZ=0}                         //z
-  if (k == 83){keyX=0}                          //X
-  if (k == 120){keyX=0}                         //x
+  if (k == 102){keyR=0}                         
+  if (k == 68 ){keyR=0}                    
+  if (k == 100){keyL=0}                       
+  if (k == 65 ){keyL=0}                       
+  if (k == 37 ){keyL=0}               
+  if (k == 39 ){keyR=0}                        
+  if (k == 87){keyZ=0}                      
+  if (k == 122){keyZ=0}                    
+  if (k == 83){keyX=0}                          
+  if (k == 120){keyX=0}                         
 
 }
 
+/**
+*Показать мини-карту
+*@ star		Значок игрока на карте
+*/
 
-//show map
 function showMap(){
   if (document.getElementById){
    document.getElementById("star").style.top =  54-myY
@@ -395,25 +477,27 @@ function showMap(){
   }
 }
 
+/**
+*Показать столбы
+*/
 
-// show pylon ( EyePoint_X, Y, Angle )
 function showPylon(epX,epY,epA){
- // surface rewrite
  if (document.getElementById){
   document.getElementById("Surface").style.top =  level
  }else{
   Surface.style.top=level
  }
 
+/**
+*Расположение элементов на экране
+*И размер в зависимости от дистанции
+*/
 
- // distance
  for (ia=0; ia<wood+pylon; ia++){
   ttaX=pyX[ia]-epX
   ttaY=pyY[ia]-epY
   pyZ[ia]=Math.sqrt(ttaX*ttaX+ttaY*ttaY)
  }
-
- // sort pylon
  for (ia=wood; ia<wood+pylon-1; ia++){
   for (ib=ia; ib<wood+pylon; ib++){
    if (pyZ[ia]<pyZ[ib]){
@@ -423,8 +507,6 @@ function showPylon(epX,epY,epA){
    }
   }
  }
-
- // sort wood
  for (ia=0; ia<wood-1; ia++){
   for (ib=ia; ib<wood; ib++){
    if (pyZ[ia]<pyZ[ib]){
@@ -437,7 +519,14 @@ function showPylon(epX,epY,epA){
 
 
 
- //  co-ordinate calc
+/**
+*Расчёт координат машины игрока в данный момент
+*@ X	X
+*@ Y	Y
+*@ A	Отслеживание поворота
+*@ zoom Приблжение по мере движения
+*@ move Исчезновение объекта из поля зрения
+*/
  for (ia=0; ia<wood+pylon; ia++){
   ttaX=pyX[ia]-epX
   ttaY=pyY[ia]-epY
@@ -448,12 +537,10 @@ function showPylon(epX,epY,epA){
   tmpT=Math.atan2(4,pyZ[ia])*180/Math.PI*1.78
 
   if (ia<wood){
-     // wood image rewrite
    pXX=tmpT*2.5
    imgZoom(ia,pXX,tmpT*6)
    imgMove(ia,tmpA+280-pXX/2,level-tmpT*4.66666666)
   }else{
-     // pylon image rewrite
    pXX=tmpT/2.5
    imgZoom(ia,pXX,tmpT)
    imgMove(ia,tmpA+280-pXX/2,tmpT/3+level)
@@ -463,7 +550,9 @@ function showPylon(epX,epY,epA){
 
 }
 
-// Course Out Check
+/**
+*Отклонение от курса
+*/
 function CourseOutCHK(){
  if (myX<-5){startFLG=0}
  if (myX>45){startFLG=0}
@@ -471,7 +560,12 @@ function CourseOutCHK(){
  if (myY>50){startFLG=0}
 }
 
-// Sector check
+/**
+*Проверка пройденных столбов
+*Если пройден с нужной стороны и исчез из
+*Поля зрения - значит, пройден
+*Все переменные уже описаны выше
+*/
 function secCHK(chNo){
 
  if (scXY[chNo]=="Y+"){
@@ -534,22 +628,27 @@ function secCHK(chNo){
 
 }
 
-// IMAGE MOVE ( ImageNo, co-ordinate_X, co-ordinate_Y )
+/**
+*Смена вида из кабины (движение)
+*/
 function imgMove(mId,mX,mY){
   document.images[mId].style.top=mY
   document.images[mId].style.left=mX
 }
 
-// IMAGE ZOOM ( ImageNo, ZoomSize_X, ZoomSize_Y )
+/**
+*Смена вида из кабины (зум)
+*/
 function imgZoom(zId,zX,zY){
   document.images[zId].style.width=zX
   document.images[zId].style.height=zY
 }
-
-// KEY EVENT SETUP
  document.onkeydown = keyDown
  document.onkeyup = keyUp
 
+/**
+*ОФОРМЛЕНИЕ ОКНА
+*/
 //-->
 </SCRIPT>
 </HEAD>

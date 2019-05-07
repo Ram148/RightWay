@@ -1,6 +1,3 @@
-<SCRIPT LANGUAGE="JavaScript">
-<!--
-
 /**
 * @description переменные
 */

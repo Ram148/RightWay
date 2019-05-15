@@ -105,7 +105,7 @@ scX1[9]=15; scY1[9]=0;
 scX2[9]=25; scY2[9]=0;
 
 /**
-*Подсчёт времени
+*@description Подсчёт времени
 */
 function interval1() {
     clearTimeout(timerID);
@@ -138,7 +138,7 @@ function interval1() {
     keyLR=keyL+keyR;
 
     /**
-    *Занос при повороте
+    *@description Занос при повороте
     *@ drift	НЕКОНТРОЛИРУЕМЫЙ ПОВОРОТ ЭКРАНА
     *@ myA		УГОЛ ПОВОРОТА
     *@ myVa		СМЯГЧЕНИЕ ПРИ ПЕРЕБОРЕ
@@ -175,7 +175,7 @@ function interval1() {
     }
 
     /**
-    *Изменение скорости
+    *@description Изменение скорости
     */
     tmpOldSpeed=speed;
     speed=Math.sqrt(speed*speed+keyZ*power);
@@ -194,8 +194,8 @@ function interval1() {
     speed=Math.sqrt(tmpBp);
 
     /**
-    *Покачивание камеры
-    *Чем резче торможение, тем больше качает
+    *@description Покачивание камеры
+    *@description Чем резче торможение, тем больше качает
     *@ myX	ПАРАМЕТР УГЛА КАЧАНИЯ Х
     *@ myY	ПАРАМЕТР УГЛА КАЧАНИЯ Y
     */
@@ -213,7 +213,7 @@ function interval1() {
          }
      }
     /*
-    *@ расчёт углов
+    *@description расчёт углов
     */
     oldmyX=myX;
     oldmyY=myY;
@@ -221,7 +221,7 @@ function interval1() {
     myY=myY+speed*Math.cos(myA/180*Math.PI);
     secCHK(sector);
     /*
-    *@ замедление
+    *@description замедление
     */
     if (sector<endSector-1) {
         tmpSec=sector;
@@ -233,13 +233,13 @@ function interval1() {
     }
 
     /**
-    *Показать столб при изменении координат (движении)
+    *@description Показать столб при изменении координат (движении)
     */
     showPylon(myX,myY,myVa);
 
     /**
-    *Сколько столбов пройдено
-    *@ startFLG БЕЛЫЕ ЦИФРЫ ВНИЗУ ПОСЕРЕДИНЕ ЭКРАНА
+    *@description Сколько столбов пройдено
+    *@startFLG БЕЛЫЕ ЦИФРЫ ВНИЗУ ПОСЕРЕДИНЕ ЭКРАНА
     */
     CourseOutCHK();
 
@@ -260,7 +260,7 @@ function interval1() {
         myVa=0;
 
     /**
-    *Стартовый экран (перезагрузка)
+    *@description Стартовый экран (перезагрузка)
     */
     if (sector<endSector) {
         if (document.getElementById){
@@ -293,7 +293,7 @@ function interval1() {
 }
 
     /**
-    *Обновление столбов
+    *@description Обновление столбов
     */
 
 function onLD() {
@@ -305,7 +305,7 @@ function onLD() {
 }
 
     /**
-    *Показывание пространства
+    *@description Показывание пространства
     */
 function initG() {
     showPylon(myX,myY,myVa);
@@ -318,7 +318,7 @@ function initG() {
     sector=0;
 }
 /**
-*Отсчёт до старта (3!2!1!)
+*@description Отсчёт до старта (3!2!1!)
 *@ T3R	3!
 *@ T2R	2!
 *@ T1R	1!
@@ -358,7 +358,7 @@ function T1R() {
 }
 
 /**
-*Нажатие клавиш
+*@description Нажатие клавиш
 *@ 87	W
 *@ 65	A
 *@ 83	S
@@ -456,7 +456,7 @@ function keyUp(UpEvents) {
 }
 
 /**
-*Показать мини-карту
+*@description Показать мини-карту
 *@ star		Значок игрока на карте
 */
 
@@ -470,7 +470,7 @@ function showMap() {
         }
 }
 /**
-*Показать столбы
+*@description Показать столбы
 */
 function showPylon(epX,epY,epA) {
 if (document.getElementById) {
@@ -480,8 +480,7 @@ if (document.getElementById) {
     }
 
     /**
-    *Расположение элементов на экране
-    *И размер в зависимости от дистанции
+    *@description Расположение элементов на экране и размер в зависимости от дистанции
     */
 
     for (ia=0; ia<wood+pylon; ia++) {
@@ -523,7 +522,7 @@ if (document.getElementById) {
 
 
     /**
-    *Расчёт координат машины игрока в данный момент
+    *@description Расчёт координат машины игрока в данный момент
     *@ X	X
     *@ Y	Y
     *@ A	Отслеживание поворота
@@ -556,7 +555,7 @@ if (document.getElementById) {
 }
 
 /**
-*Отклонение от курса
+*@description Отклонение от курса
 */
 function CourseOutCHK() {
     if (myX<-5) {
@@ -574,9 +573,9 @@ function CourseOutCHK() {
 }
 
 /**
-*Проверка пройденных столбов
-*Если пройден с нужной стороны и исчез из
-*Поля зрения - значит, пройден
+*@description Проверка пройденных столбов
+*@description Если пройден с нужной стороны и исчез из
+*@description Поля зрения - значит, пройден
 */
 function secCHK(chNo) {
     if (scXY[chNo]=="Y+") {
@@ -633,7 +632,7 @@ function secCHK(chNo) {
 }
 
 /**
-*Смена вида из кабины (движение)
+*@description Смена вида из кабины (движение)
 */
 function imgMove(mId,mX,mY) {
     document.images[mId].style.top=mY;
@@ -641,7 +640,7 @@ function imgMove(mId,mX,mY) {
 }
 
 /**
-*Смена вида из кабины (зум)
+*@description Смена вида из кабины (зум)
 */
 function imgZoom(zId,zX,zY) {
     document.images[zId].style.width=zX;

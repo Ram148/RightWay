@@ -107,17 +107,17 @@ scX2[9]=25; scY2[9]=0;
 /**
 *Подсчёт времени
 */
-function interval1(){
+function interval1() {
     clearTimeout(timerID);
     scr=scr+1;
     pscr=scr/10;
     tmpscr=scr-parseInt(pscr)*10;
     tmpSC0="";
-/**
-*@ tmpscr	ТЕКУЩАЯ СКОРОСТЬ
-*@ tmpVspeed	РАЗГОН/ТОРМОЖЕНИЕ
-*/
-    if (tmpscr==0){
+    /**
+    *@ tmpscr	ТЕКУЩАЯ СКОРОСТЬ
+    *@ tmpVspeed	РАЗГОН/ТОРМОЖЕНИЕ
+    */
+    if (tmpscr==0) {
         tmpSC0=".0";
     }
  
@@ -126,10 +126,10 @@ function interval1(){
     document.forms[0].elements[0].value = tmpVspeed;
     tmpSec0=parseInt((sector+1)/10); //скорость смены картинки
     tmpSec1=sector+1-tmpSec0*10;
-    if (document.getElementById){
+    if (document.getElementById) {
         document.getElementById("N0").style.top =  tmpSec0*1000+1000;
         document.getElementById("N1").style.top =  tmpSec1*1000+1000;
-    }else{
+    } else {
         N0.style.top=tmpSec0*1000+1000;
         N1.style.top=tmpSec1*1000+1000;
     }
@@ -137,119 +137,119 @@ function interval1(){
     showMap(); //показать мини-карту
     keyLR=keyL+keyR;
 
-/**
-*Занос при повороте
-*@ drift	НЕКОНТРОЛИРУЕМЫЙ ПОВОРОТ ЭКРАНА
-*@ myA		УГОЛ ПОВОРОТА
-*@ myVa		СМЯГЧЕНИЕ ПРИ ПЕРЕБОРЕ
-*/
-    if (keyX!=0){
-        if (keyLR!=0){
-            if (speed!=0){
+    /**
+    *Занос при повороте
+    *@ drift	НЕКОНТРОЛИРУЕМЫЙ ПОВОРОТ ЭКРАНА
+    *@ myA		УГОЛ ПОВОРОТА
+    *@ myVa		СМЯГЧЕНИЕ ПРИ ПЕРЕБОРЕ
+    */
+    if (keyX!=0) {
+        if (keyLR!=0) {
+            if (speed!=0) {
                 drift=drift+keyLR*2;
             }
         }
     }
-    if (speed==0){
+    if (speed==0) {
         myA=myA+drift;
         drift=0
     }
-    if (speed!=0){
+    if (speed!=0) {
         myA=myA+keyLR*(6+keyX*2-keyZ*3)+drift*.1;
         drift=drift*.9;
     }
-    if (myA>180){
+    if (myA>180) {
         myA=myA-360;
     }
-    if (myA<-180){
+    if (myA<-180) {
         myA=myA+360;
     }
  
     myVa=myA+drift;
  
-    if (myVa>180){
+    if (myVa>180) {
         myVa=myVa-360;
     }
-    if (myVa<-180){   
+    if (myVa<-180) {   
         myVa=myVa+360;
     }
 
-/**
-*Изменение скорости
-*/
+    /**
+    *Изменение скорости
+    */
     tmpOldSpeed=speed;
     speed=Math.sqrt(speed*speed+keyZ*power);
     tmpSP=1;
  
-    if (speed<.5){
+    if (speed<.5) {
         tmpSP=.3;
     }
  
     tmpBp=speed*speed-keyX*Bpower*tmpSP-drag;
  
-    if (tmpBp<=0){
+    if (tmpBp<=0) {
         tmpBp=0;
     }
  
     speed=Math.sqrt(tmpBp);
 
-/**
-*Покачивание камеры
-*Чем резче торможение, тем больше качает
-*@ myX	ПАРАМЕТР УГЛА КАЧАНИЯ Х
-*@ myY	ПАРАМЕТР УГЛА КАЧАНИЯ Y
-*/
-    if (tmpOldSpeed<speed){
+    /**
+    *Покачивание камеры
+    *Чем резче торможение, тем больше качает
+    *@ myX	ПАРАМЕТР УГЛА КАЧАНИЯ Х
+    *@ myY	ПАРАМЕТР УГЛА КАЧАНИЯ Y
+    */
+    if (tmpOldSpeed<speed) {
         level=125;
-    }else{
-         if (tmpOldSpeed==speed){
+    } else {
+         if (tmpOldSpeed==speed) {
              level= 120;
-         }else{
-             if (keyX!=0){
+         } else {
+             if (keyX!=0) {
                  level= 115;
-             }else{
+             } else {
                  level=120;
              }
          }
      }
-/*
-*@ расчёт углов
-*/
+    /*
+    *@ расчёт углов
+    */
     oldmyX=myX;
     oldmyY=myY;
     myX=myX+speed*Math.sin(myA/180*Math.PI);
     myY=myY+speed*Math.cos(myA/180*Math.PI);
     secCHK(sector);
-/*
-*@ замедление
-*/
-    if (sector<endSector-1){
+    /*
+    *@ замедление
+    */
+    if (sector<endSector-1) {
         tmpSec=sector;
         sector=49;
         secCHK(49);
-        if (sector!=50){
+        if (sector!=50) {
             sector=tmpSec;
         }
     }
 
-/**
-*Показать столб при изменении координат (движении)
-*/
+    /**
+    *Показать столб при изменении координат (движении)
+    */
     showPylon(myX,myY,myVa);
 
-/**
-*Сколько столбов пройдено
-*@ startFLG БЕЛЫЕ ЦИФРЫ ВНИЗУ ПОСЕРЕДИНЕ ЭКРАНА
-*/
+    /**
+    *Сколько столбов пройдено
+    *@ startFLG БЕЛЫЕ ЦИФРЫ ВНИЗУ ПОСЕРЕДИНЕ ЭКРАНА
+    */
     CourseOutCHK();
 
-    if (sector>=endSector){
+    if (sector>=endSector) {
         startFLG=0;
     }
 
-    if (startFLG==1){
+    if (startFLG==1) {
         timerID = setTimeout("interval1()",timerINT);
-    }else{
+    } else {
         myX=0;
         myY=0;
         myA=0;
@@ -259,57 +259,55 @@ function interval1(){
         drift=0;
         myVa=0;
 
-/**
-*Стартовый экран (перезагрузка)
-*/
-    if (sector<endSector){
+    /**
+    *Стартовый экран (перезагрузка)
+    */
+    if (sector<endSector) {
         if (document.getElementById){
             document.getElementById("OUT").style.top =  96;
             document.getElementById("BTN").style.top =  140;
             document.getElementById("arrow").style.top = 4;
-        }else{
+        } else {
             OUT.style.top=96;
             BTN.style.top=140;
             arrow.style.top=4;
         }
-    }else{
-        if (document.getElementById){
-            if (sector==50){
+    } else {
+        if (document.getElementById) {
+            if (sector==50) {
                 document.getElementById("miss").style.top =  96;
-            }else{
+            } else {
                 document.getElementById("GOAL").style.top =  96;
             }
             document.getElementById("BTN").style.top =  140;
             document.getElementById("arrow").style.top = 4;
-            }else{
-                if (sector==50){
-                miss.style.top=96;
-            }else{
+        } else {
+            if (sector==50) {
+            miss.style.top=96;
+            } else {
                 GOAL.style.top=96;
             }
-            BTN.style.top=140;
-            arrow.style.top=4;
-            }
-        }
+        BTN.style.top=140;
+        arrow.style.top=4;
     }
 }
 
-/**
-*Обновление столбов
-*/
+    /**
+    *Обновление столбов
+    */
 
-function onLD(){
-    if (document.all){
+function onLD() {
+    if (document.all) {
         window.focus();
     }
     a=0;
     showPylon(myX,myY,myVa);
 }
 
-/**
-*Показывание пространства
-*/
-function initG(){
+    /**
+    *Показывание пространства
+    */
+function initG() {
     showPylon(myX,myY,myVa);
     showMap();
     startFLG=1;
@@ -318,7 +316,7 @@ function initG(){
     oldmyX=0;
     oldmyY=0;
     sector=0;
-
+}
 /**
 *Отсчёт до старта (3!2!1!)
 *@ T3R	3!
@@ -326,35 +324,33 @@ function initG(){
 *@ T1R	1!
 */
 
-function T3R(){
-    if (document.getElementById){
+function T3R() {
+    if (document.getElementById) {
         document.getElementById("T3").style.top =  -1000;
         document.getElementById("T2").style.top =  96;
-    }else{
+    } else {
         T3.style.top=-1000;
         T2.style.top=96;
     }
     timerID = setTimeout("T2R()",1000);
 }
 
-function T2R()
-{
-    if (document.getElementById){
+function T2R() {
+    if (document.getElementById) {
         document.getElementById("T2").style.top =  -1000;
         document.getElementById("T1").style.top =  96;
-    }else{
+    } else {
         T2.style.top=-1000;
         T1.style.top=96;
     }
     timerID = setTimeout("T1R()",1000);
 }
 
-function T1R()
-{
-    if (document.getElementById){
+function T1R() {
+    if (document.getElementById) {
         document.getElementById("arrow").style.top =  -1000;
         document.getElementById("T1").style.top =  -1000;
-    }else{
+    } else {
         arrow.style.top=-1000;
         T1.style.top=-1000;
     }
@@ -372,89 +368,88 @@ function T1R()
 *@ 100	Влево на правой цифровой клавиатуре
 *@ 102	Вправо на правой цифровой клавиатуре
 */
-function keyDown(DnEvents){
-    if (document.all){
+function keyDown(DnEvents) {
+    if (document.all) {
         k=window.event.keyCode;
-    }else{
+    } else {
         k=DnEvents.which;
     }
-    if (k == 68){
+    if (k == 68) {
         keyR=1;
     }                     
-    if (k == 102){
+    if (k == 102) {
         keyR=1;
     }                         
-    if (k == 39){
+    if (k == 39) {
         keyR=1;
     }                         
-    if (k == 65){
+    if (k == 65) {
         keyL=-1;
     }                       
-    if (k == 100){
+    if (k == 100) {
         keyL=-1;
     }                      
-    if (k == 37){
+    if (k == 37) {
         keyL=-1;
     }                        
-    if (k == 87){
+    if (k == 87) {
         keyZ=1;
     }                          
-    if (k == 122){
+    if (k == 122) {
         keyZ=1;
     }                         
-    if (k == 83){
+    if (k == 83) {
         keyX=1;
     }                          
-    if (k == 120){
+    if (k == 120) {
         keyX=1;
     }                        
-    if (k == 83){
-        if (startFLG==0){
+    if (k == 83) {
+        if (startFLG==0) {
             initG();
         }
     }       
-    if (k == 115){
-        if (startFLG==0){
+    if (k == 115) {
+        if (startFLG==0) {
             initG();
         }
     }
 }
 
-function keyUp(UpEvents)
-{
-    if (document.all){
+function keyUp(UpEvents) {
+    if (document.all) {
         k=window.event.keyCode;
-    }else{
+    } else {
         k=UpEvents.which;
     }
-    if (k == 102){
+    if (k == 102) {
         keyR=0;
     }                         
-    if (k == 68 ){
+    if (k == 68) {
         keyR=0;
     }                    
-    if (k == 100){
+    if (k == 100) {
         keyL=0;
     }                       
-    if (k == 65 ){
+    if (k == 65) {
         keyL=0;
     }                       
-    if (k == 37 ){
+    if (k == 37) {
         keyL=0;
     }               
-    if (k == 39 ){
+    if (k == 39) {
         keyR=0;
     }                        
-    if (k == 87){
+    if (k == 87) {
         keyZ=0;
     }                      
-    if (k == 122){
+    if (k == 122) {
         keyZ=0;
     }                    
-    if (k == 83){
+    if (k == 83) {
         keyX=0;
     }                          
-    if (k == 120){
+    if (k == 120) {
         keyX=0;
     }                         
 
@@ -465,11 +460,11 @@ function keyUp(UpEvents)
 *@ star		Значок игрока на карте
 */
 
-function showMap(){
-    if (document.getElementById){
+function showMap() {
+    if (document.getElementById) {
         document.getElementById("star").style.top =  54-myY;
         document.getElementById("star").style.left =  499+myX;
-    }else{
+    } else {
         star.style.top=54-myY;
         star.style.left=499+myX;
         }
@@ -477,26 +472,26 @@ function showMap(){
 /**
 *Показать столбы
 */
-function showPylon(epX,epY,epA){
-if (document.getElementById){
+function showPylon(epX,epY,epA) {
+if (document.getElementById) {
     document.getElementById("Surface").style.top =  level;
-}else{
+} else {
     Surface.style.top=level;
     }
 
-/**
-*Расположение элементов на экране
-*И размер в зависимости от дистанции
-*/
+    /**
+    *Расположение элементов на экране
+    *И размер в зависимости от дистанции
+    */
 
-    for (ia=0; ia<wood+pylon; ia++){
+    for (ia=0; ia<wood+pylon; ia++) {
         ttaX=pyX[ia]-epX;
         ttaY=pyY[ia]-epY;
         pyZ[ia]=Math.sqrt(ttaX*ttaX+ttaY*ttaY);
     }
-    for (ia=wood; ia<wood+pylon-1; ia++){
-        for (ib=ia; ib<wood+pylon; ib++){
-            if (pyZ[ia]<pyZ[ib]){
+    for (ia=wood; ia<wood+pylon-1; ia++) {
+        for (ib=ia; ib<wood+pylon; ib++) {
+            if (pyZ[ia]<pyZ[ib]) {
                 tmpS=pyZ[ia];
                 pyZ[ia]=pyZ[ib];
                 pyZ[ib]=tmpS;
@@ -509,9 +504,9 @@ if (document.getElementById){
             }
         }
     }
-    for (ia=0; ia<wood-1; ia++){
-        for (ib=ia; ib<wood; ib++){
-            if (pyZ[ia]<pyZ[ib]){
+    for (ia=0; ia<wood-1; ia++) {
+        for (ib=ia; ib<wood; ib++) {
+            if (pyZ[ia]<pyZ[ib]) {
                 tmpS=pyZ[ia];
                 pyZ[ia]=pyZ[ib];
                 pyZ[ib]=tmpS;
@@ -527,32 +522,32 @@ if (document.getElementById){
 
 
 
-/**
-*Расчёт координат машины игрока в данный момент
-*@ X	X
-*@ Y	Y
-*@ A	Отслеживание поворота
-*@ zoom Приблжение по мере движения
-*@ move Исчезновение объекта из поля зрения
-*/
-    for (ia=0; ia<wood+pylon; ia++){
+    /**
+    *Расчёт координат машины игрока в данный момент
+    *@ X	X
+    *@ Y	Y
+    *@ A	Отслеживание поворота
+    *@ zoom Приблжение по мере движения
+    *@ move Исчезновение объекта из поля зрения
+    */
+    for (ia=0; ia<wood+pylon; ia++) {
         ttaX=pyX[ia]-epX;
         ttaY=pyY[ia]-epY;
         tmpA=Math.atan2(ttaX,ttaY)*180/Math.PI-epA;
-        if (tmpA>180){
+        if (tmpA>180) {
             tmpA=tmpA-360;
         }
-        if (tmpA<-180){
+        if (tmpA<-180) {
             tmpA=tmpA+360;
         }
     tmpA=tmpA*6.2;
     tmpT=Math.atan2(4,pyZ[ia])*180/Math.PI*1.78;
 
-    if (ia<wood){
+    if (ia<wood) {
        pXX=tmpT*2.5;
        imgZoom(ia,pXX,tmpT*6);
        imgMove(ia,tmpA+280-pXX/2,level-tmpT*4.66666666);
-    }else{
+    } else {
        pXX=tmpT/2.5;
        imgZoom(ia,pXX,tmpT);
        imgMove(ia,tmpA+280-pXX/2,tmpT/3+level);
@@ -563,17 +558,17 @@ if (document.getElementById){
 /**
 *Отклонение от курса
 */
-function CourseOutCHK(){
-    if (myX<-5){
+function CourseOutCHK() {
+    if (myX<-5) {
         startFLG=0;
     }
-    if (myX>45){
+    if (myX>45) {
         startFLG=0;
     }
-    if (myY<-10){
+    if (myY<-10) {
         startFLG=0;
     }
-    if (myY>50){
+    if (myY>50) {
         startFLG=0;
     }
 }
@@ -583,13 +578,13 @@ function CourseOutCHK(){
 *Если пройден с нужной стороны и исчез из
 *Поля зрения - значит, пройден
 */
-function secCHK(chNo){
-    if (scXY[chNo]=="Y+"){
-        if (oldmyY<=scY1[chNo]){
-            if (myY>scY1[chNo]){
+function secCHK(chNo) {
+    if (scXY[chNo]=="Y+") {
+        if (oldmyY<=scY1[chNo]) {
+            if (myY>scY1[chNo]) {
                 tmpXR=(oldmyX-myX)*(scY1[chNo]-myY)/(oldmyY-myY)+myX;
-                if (tmpXR>scX1[chNo]){
-                    if (tmpXR<scX2[chNo]){
+                if (tmpXR>scX1[chNo]) {
+                    if (tmpXR<scX2[chNo]) {
                         sector=sector+1;
                     }
                 }
@@ -597,12 +592,12 @@ function secCHK(chNo){
         }
     }
 
-    if (scXY[chNo]=="Y-"){
-        if (oldmyY>=scY1[chNo]){
-            if (myY<scY1[chNo]){
+    if (scXY[chNo]=="Y-") {
+        if (oldmyY>=scY1[chNo]) {
+            if (myY<scY1[chNo]) {
                 tmpXR=(oldmyX-myX)*(scY1[chNo]-myY)/(oldmyY-myY)+myX;
-                if (tmpXR>scX1[chNo]){
-                    if (tmpXR<scX2[chNo]){
+                if (tmpXR>scX1[chNo]) {
+                    if (tmpXR<scX2[chNo]) {
                         sector=sector+1;
                     }
                 }
@@ -610,12 +605,12 @@ function secCHK(chNo){
         }
     }
 
-    if (scXY[chNo]=="X+"){
-        if (oldmyX<=scX1[chNo]){
-            if (myX>scX1[chNo]){
+    if (scXY[chNo]=="X+") {
+        if (oldmyX<=scX1[chNo]) {
+            if (myX>scX1[chNo]) {
                tmpYR=(oldmyY-myY)*(scX1[chNo]-myX)/(oldmyX-myX)+myY;
-                if (tmpYR>scY1[chNo]){
-                 if (tmpYR<scY2[chNo]){
+                if (tmpYR>scY1[chNo]) {
+                 if (tmpYR<scY2[chNo]) {
                     sector=sector+1;
                     }
                 }
@@ -623,12 +618,12 @@ function secCHK(chNo){
         }
     }
 
-    if (scXY[chNo]=="X-"){
-        if (oldmyX>=scX1[chNo]){
-            if (myX<scX1[chNo]){
+    if (scXY[chNo]=="X-") {
+        if (oldmyX>=scX1[chNo]) {
+            if (myX<scX1[chNo]) {
                 tmpYR=(oldmyY-myY)*(scX1[chNo]-myX)/(oldmyX-myX)+myY;
-                if (tmpYR>scY1[chNo]){
-                if (tmpYR<scY2[chNo]){
+                if (tmpYR>scY1[chNo]) {
+                if (tmpYR<scY2[chNo]) {
                     sector=sector+1;
                     }
                 }    
@@ -640,7 +635,7 @@ function secCHK(chNo){
 /**
 *Смена вида из кабины (движение)
 */
-function imgMove(mId,mX,mY){
+function imgMove(mId,mX,mY) {
     document.images[mId].style.top=mY;
     document.images[mId].style.left=mX;
 }
@@ -648,19 +643,19 @@ function imgMove(mId,mX,mY){
 /**
 *Смена вида из кабины (зум)
 */
-function imgZoom(zId,zX,zY){
+function imgZoom(zId,zX,zY) {
     document.images[zId].style.width=zX;
     document.images[zId].style.height=zY;
  
-    for (ia=0; ia<wood; ia++){
-        document.write('<IMG ID="'+ia+'" src="img/wood.gif" alt="pylon" STYLE="position:absolute;
+    for (ia=0; ia<wood; ia++) {
+        document.write('<IMG ID="'+ia+'" src="img/wood.gif" alt="pylon" STYLE="position:absolute);
         top:-1000px;
         left:280px;
         width:40px; 
         height:100px">');
     }
                    
-    for (ia=wood; ia<wood+pylon; ia++){
+    for (ia=wood; ia<wood+pylon; ia++) {
         document.write('<IMG ID="'+ia+'" src="img/pylon.gif" alt="pylon" STYLE="position:absolute;
         top:-1000px; 
         left:280px; 

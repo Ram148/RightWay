@@ -28,13 +28,13 @@ var sector = 0;
 var pyX = new Array(50);                           
 var pyY = new Array(50);  
  
-pyX[0] =- 5; pyY[0] = 0;
-pyX[1] =- 5; pyY[1] = 10;
-pyX[2] =- 5; pyY[2] = 20;
-pyX[3] =- 5; pyY[3] = 30;
+pyX[0] = -5; pyY[0] = 0;
+pyX[1] = -5; pyY[1] = 10;
+pyX[2] = -5; pyY[2] = 20;
+pyX[3] = -5; pyY[3] = 30;
  
-pyX[4] =- 5; pyY[4] = 40;
-pyX[5] =- 5; pyY[5] = 50;
+pyX[4] = -5; pyY[4] = 40;
+pyX[5] = -5; pyY[5] = 50;
 pyX[6] = 5; pyY[6] = 50;
 pyX[7] = 15; pyY[7] = 50;
  
@@ -48,13 +48,13 @@ pyX[13] = 45; pyY[13] = 20;
 pyX[14] = 45; pyY[14] = 10;
 pyX[15] = 45; pyY[15] = 0;
  
-pyX[16] = 35; pyY[16] =- 10;
-pyX[17] = 25; pyY[17] =- 10;
-pyX[18] = 15; pyY[18] =- 10;
-pyX[19] = 5; pyY[19] =- 10;
+pyX[16] = 35; pyY[16] = -10;
+pyX[17] = 25; pyY[17] = -10;
+pyX[18] = 15; pyY[18] = -10;
+pyX[19] = 5; pyY[19] = -10;
 
-pyX[20] =- 5; pyY[20] =- 10;
-pyX[21] = 45; pyY[21] =- 10;
+pyX[20] = -5; pyY[20] = -10;
+pyX[21] = 45; pyY[21] = -10;
 pyX[22] = 15; pyY[22] = 25;
 pyX[23] = 20; pyY[23] = 20;
  
@@ -79,7 +79,7 @@ var scY2 = new Array(50);
  
 var scXY = new Array(50);
 
-scX1[0] =- 5; scY1[0] = 40; 
+scX1[0] = -5; scY1[0] = 40; 
 scX2[0] = 5 ; scY2[0] = 40;
 scX1[1] = 35; scY1[1] = 40; 
 scX2[1] = 35; scY2[1] = 50;
@@ -89,9 +89,9 @@ scX2[2] = 35; scY2[2] = 40;
 scX1[3] = 35; scY1[3] = 20;
 scX2[3] = 35; scY2[3] = 30;
  
-scX1[4] = 35; scY1[4] =- 10;
+scX1[4] = 35; scY1[4] = -10;
 scX2[4] = 35; scY2[4] = 20;
-scX1[5] =- 5; scY1[5] = 20; 
+scX1[5] = -5; scY1[5] = 20; 
 scX2[5] = 15; scY2[5] = 20;
  
 scX1[6] = 15; scY1[6] = 25; 
@@ -329,7 +329,7 @@ function t3R() {
         document.getElementById("T3").style.top = -1000;
         document.getElementById("T2").style.top = 96;
     } else {
-        t3.style.top =- 1000;
+        t3.style.top = -1000;
         t2.style.top = 96;
     }
     timerID = setTimeout("T2R()", 1000);
@@ -340,7 +340,7 @@ function t2R() {
         document.getElementById("T2").style.top = -1000;
         document.getElementById("T1").style.top = 96;
     } else {
-        t2.style.top =- 1000;
+        t2.style.top = -1000;
         t1.style.top = 96;
     }
     timerID = setTimeout("T1R()", 1000);
@@ -351,8 +351,8 @@ function t1R() {
         document.getElementById("arrow").style.top = -1000;
         document.getElementById("T1").style.top = -1000;
     } else {
-        arrow.style.top =- 1000;
-        t1.style.top =- 1000;
+        arrow.style.top = -1000;
+        t1.style.top = -1000;
     }
     timerID = setTimeout("interval1()", 1);
 }
@@ -384,13 +384,13 @@ function keyDown(DnEvents) {
         keyR = 1;
     }                         
     if (k == 65) {
-        keyL =- 1;
+        keyL = -1;
     }                       
     if (k == 100) {
-        keyL =- 1;
+        keyL = -1;
     }                      
     if (k == 37) {
-        keyL =- 1;
+        keyL = -1;
     }                        
     if (k == 87) {
         keyZ = 1;
@@ -484,7 +484,7 @@ if (document.getElementById) {
     */
 
     for (ia = 0; ia < wood + pylon; ia ++) {
-        ttaX = pyX[ia]  - epX;
+        ttaX = pyX[ia] - epX;
         ttaY = pyY[ia] - epY;
         pyZ[ia] = Math.sqrt(ttaX * ttaX + ttaY * ttaY);
     }

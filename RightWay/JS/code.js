@@ -1,9 +1,28 @@
 /**
 * @description переменные
+* @var {int} $timerID таймер
+* @var {int} $timerINT период обновления таймера
+* @var {int} $scr прибавление к таймеру
+* @var {int} $keyL код кнопки управления "влево"
+* @var {int} $keyR код кнопки управления "вправо"
+* @var {int} $keyZ код кнопки управления "назад"                        
+* @var {int} $keyX код кнопки управления "вперёд"                                 
+* @var {int} $startFLG признак стартовой позиции
+* @var {int} $myX координата трактора Х
+* @var {int} $myY координата трактора Y
+* @var {int} $oldmyX предыдущая координата трактора Х
+* @var {int} $oldmyY предыдущая координата трактора Y
+* @var {number} $myA разгон
+* @var {number} $myVa разгон с учётом дрифта
+* @var {number} $speed скорость
+* @var {int} $wood количество деревьев
+* @var {int} $pylon количество столбов
+* @var {number} $drift занос
+* @var {int} $sector признак недопустимого пересечения границы 
 */
-var timerID = null; //таймер
+var timerID = null;
 var timerINT = 100;                         
-var scr = 0;  //координатные переменные                 
+var scr = 0;               
 var keyLR = 0;                          
 var keyL = 0;
 var keyR = 0;
@@ -16,14 +35,16 @@ var oldmyX = 0;
 var oldmyY = 0;
 var myA = 0;
 var myVa = 0;
-var speed = 0; //скорость
-var wood = 22; //высота деревьев
-var pylon = 10; //высота столбов
-var drift = 0; //занос
+var speed = 0;
+var wood = 22;
+var pylon = 10;
+var drift = 0;
 var sector = 0; 
 
 /**
-*@description координаты столбов
+* @description координаты столбов
+* @type {Array} $pyX координаты столбов Х
+* @type {Array} $pyY координаты столбов Y
 */
 var pyX = new Array(50);                           
 var pyY = new Array(50);  
@@ -69,7 +90,7 @@ pyX[30] = 5;  pyY[30] = 40;
 pyX[31] = 15; pyY[31] = 20;
  
 /**
-*@description координаты деревьев
+* @description координаты деревьев
 */
 var scX1 = new Array(50);                        
 var scY1 = new Array(50);
@@ -105,7 +126,8 @@ scX1[9] = 15; scY1[9] = 0;
 scX2[9] = 25; scY2[9] = 0;
 
 /**
-*@description Подсчёт времени
+* @description interval1 Подсчёт времени
+* @return {void} Ничего не возвращает
 */
 function interval1() {
     clearTimeout(timerID);
@@ -114,17 +136,17 @@ function interval1() {
     tmpscr = scr - parseInt(pscr) * 10;
     tmpSC0 = "";
     /**
-    *@ tmpscr	ТЕКУЩАЯ СКОРОСТЬ
-    *@ tmpVspeed	РАЗГОН/ТОРМОЖЕНИЕ
+    * @var {number} $tmpscr	ТЕКУЩАЯ СКОРОСТЬ
+    * @var {number} $tmpVspeed	РАЗГОН/ТОРМОЖЕНИЕ
     */
     if (tmpscr == 0) {
         tmpSC0 = ".0";
     }
  
-    document.forms[1].elements[0].value = pscr + tmpSC0; //вывод скорости
+    document.forms[1].elements[0].value = pscr + tmpSC0;
     tmpVspeed = parseInt(speed * 60);
     document.forms[0].elements[0].value = tmpVspeed;
-    tmpSec0 = parseInt((sector + 1) / 10); //скорость смены картинки
+    tmpSec0 = parseInt((sector + 1) / 10);
     tmpSec1 = sector + 1 - tmpSec0 * 10;
     if (document.getElementById) {
         document.getElementById("N0").style.top =  tmpSec0 * 1000 + 1000;
@@ -134,14 +156,14 @@ function interval1() {
         N1.style.top = tmpSec1 * 1000 + 1000;
     }
 
-    showMap(); //показать мини-карту
-    keyLR = keyL  +keyR;
+    showMap();
+    keyLR = keyL + keyR;
 
     /**
-    *@description Занос при повороте
-    *@ drift	НЕКОНТРОЛИРУЕМЫЙ ПОВОРОТ ЭКРАНА
-    *@ myA		УГОЛ ПОВОРОТА
-    *@ myVa		СМЯГЧЕНИЕ ПРИ ПЕРЕБОРЕ
+    * @ description Занос при повороте
+    * @ var {number} drift	НЕКОНТРОЛИРУЕМЫЙ ПОВОРОТ ЭКРАНА
+    * @ var {number} myA		УГОЛ ПОВОРОТА
+    * @ var {number} myVa		СМЯГЧЕНИЕ ПРИ ПЕРЕБОРЕ
     */
     if (keyX != 0) {
         if (keyLR !=0 ) {
@@ -175,7 +197,7 @@ function interval1() {
     }
 
     /**
-    *@description Изменение скорости
+    * @description Изменение скорости
     */
     tmpOldSpeed = speed;
     speed = Math.sqrt(speed * speed + keyZ * power);
@@ -194,10 +216,10 @@ function interval1() {
     speed = Math.sqrt(tmpBp);
 
     /**
-    *@description Покачивание камеры
-    *@description Чем резче торможение, тем больше качает
-    *@ myX	ПАРАМЕТР УГЛА КАЧАНИЯ Х
-    *@ myY	ПАРАМЕТР УГЛА КАЧАНИЯ Y
+    * @description Покачивание камеры
+    * @description Чем резче торможение, тем больше качает
+    * @var {number} 	ПАРАМЕТР УГЛА КАЧАНИЯ Х
+    * @var {number} 	ПАРАМЕТР УГЛА КАЧАНИЯ Y
     */
     if (tmpOldSpeed < speed) {
         level = 125;
@@ -213,7 +235,7 @@ function interval1() {
          }
      }
     /*
-    *@description расчёт углов
+    * @description расчёт углов
     */
     oldmyX = myX;
     oldmyY = myY;
@@ -221,7 +243,7 @@ function interval1() {
     myY = myY + speed * Math.cos(myA / 180 * Math.PI);
     secCHK(sector);
     /*
-    *@description замедление
+    * @description замедление
     */
     if (sector < endSector - 1) {
         tmpSec = sector;
@@ -233,13 +255,12 @@ function interval1() {
     }
 
     /**
-    *@description Показать столб при изменении координат (движении)
+    * @description Показать столб при изменении координат (движении)
     */
     showPylon(myX, myY, myVa);
 
     /**
-    *@description Сколько столбов пройдено
-    *@startFLG БЕЛЫЕ ЦИФРЫ ВНИЗУ ПОСЕРЕДИНЕ ЭКРАНА
+    * @description Сколько столбов пройдено
     */
     courseOutCHK();
 
@@ -260,7 +281,7 @@ function interval1() {
         myVa = 0;
 
     /**
-    *@description Стартовый экран (перезагрузка)
+    * @description Стартовый экран (перезагрузка)
     */
     if (sector < endSector) {
         if (document.getElementById){
@@ -293,7 +314,8 @@ function interval1() {
 }
 
     /**
-    *@description Обновление столбов
+    * @description onLD Обновление столбов
+    * @return {void} Ничего не возвращает
     */
 
 function onLD() {
@@ -304,9 +326,10 @@ function onLD() {
     showPylon(myX, myY, myVa);
 }
 
-    /**
-    *@description Показывание пространства
-    */
+/**
+* @description initG Отображение пространства
+* @return {void} Ничего не возвращает
+*/
 function initG() {
     showPylon(myX, myY, myVa);
     showMap();
@@ -318,12 +341,9 @@ function initG() {
     sector = 0;
 }
 /**
-*@description Отсчёт до старта (3!2!1!)
-*@ T3R	3!
-*@ T2R	2!
-*@ T1R	1!
+* @description t3R Отсчёт до старта (3!)
+* @return {void} Ничего не возвращает
 */
-
 function t3R() {
     if (document.getElementById) {
         document.getElementById("T3").style.top = -1000;
@@ -335,6 +355,10 @@ function t3R() {
     timerID = setTimeout("T2R()", 1000);
 }
 
+/**
+* @description t2R Отсчёт до старта (2!)
+* @return {void} Ничего не возвращает
+*/
 function t2R() {
     if (document.getElementById) {
         document.getElementById("T2").style.top = -1000;
@@ -345,7 +369,11 @@ function t2R() {
     }
     timerID = setTimeout("T1R()", 1000);
 }
-
+     
+/**
+* @description t1R Отсчёт до старта (1!)
+* @return {void} Ничего не возвращает
+*/
 function t1R() {
     if (document.getElementById) {
         document.getElementById("arrow").style.top = -1000;
@@ -358,15 +386,16 @@ function t1R() {
 }
 
 /**
-*@description Нажатие клавиш
-*@ 87	W
-*@ 65	A
-*@ 83	S
-*@ 68	D
-*@ 39 	Альтернативное вправо
-*@ 37	Альтернативное влево
-*@ 100	Влево на правой цифровой клавиатуре
-*@ 102	Вправо на правой цифровой клавиатуре
+* События нажатия кнопки
+* @param {KeyboardEvent} DnEvents Событие кнопки
+* @87	W
+* @65	A
+* @83	S
+* @68	D
+* @39 	Альтернативное вправо
+* @37	Альтернативное влево
+* @100	Влево на правой цифровой клавиатуре
+* @102	Вправо на правой цифровой клавиатуре
 */
 function keyDown(DnEvents) {
     if (document.all) {
@@ -416,6 +445,10 @@ function keyDown(DnEvents) {
     }
 }
 
+/**
+* События нажатия кнопки
+* @param {KeyboardEvent} UpEvents Событие кнопки
+*/
 function keyUp(UpEvents) {
     if (document.all) {
         k = window.event.keyCode;
@@ -456,8 +489,7 @@ function keyUp(UpEvents) {
 }
 
 /**
-*@description Показать мини-карту
-*@ star		Значок игрока на карте
+* @description showMap Отображение карты
 */
 
 function showMap() {
@@ -469,8 +501,9 @@ function showMap() {
         star.style.left = 499 + myX;
         }
 }
+
 /**
-*@description Показать столбы
+* @description showPylon Показать столбы
 */
 function showPylon(epX, epY, epA) {
 if (document.getElementById) {
@@ -480,7 +513,7 @@ if (document.getElementById) {
     }
 
     /**
-    *@description Расположение элементов на экране и размер в зависимости от дистанции
+    * @description Расположение элементов на экране и размер в зависимости от дистанции
     */
 
     for (ia = 0; ia < wood + pylon; ia ++) {
@@ -522,12 +555,7 @@ if (document.getElementById) {
 
 
     /**
-    *@description Расчёт координат машины игрока в данный момент
-    *@ X	X
-    *@ Y	Y
-    *@ A	Отслеживание поворота
-    *@ zoom Приблжение по мере движения
-    *@ move Исчезновение объекта из поля зрения
+    * @description Расчёт координат машины игрока в данный момент
     */
     for (ia = 0; ia < wood + pylon; ia ++) {
         ttaX = pyX[ia] - epX;
@@ -554,7 +582,8 @@ if (document.getElementById) {
 }
 
 /**
-*@description Отклонение от курса
+* @description tourseOutCHK Отклонение от курса
+* @return {void} Ничего не возвращает
 */
 function tourseOutCHK() {
     if (myX <-5) {
@@ -572,9 +601,11 @@ function tourseOutCHK() {
 }
 
 /**
-*@description Проверка пройденных столбов
-*@description Если пройден с нужной стороны и исчез из
-*@description Поля зрения - значит, пройден
+* @description Проверка пройденных столбов
+* @description Если пройден с нужной стороны и исчез из
+* @description Поля зрения - значит, пройден
+* @param {number) chNo номер пройденного столба
+* @return {void} Ничего не возвращает
 */
 function secCHK(chNo) {
     if (scXY[chNo] == "Y+") {
@@ -631,17 +662,22 @@ function secCHK(chNo) {
 }
 
 /**
-*@description Смена вида из кабины (движение)
+* @description imgMove Смена вида из кабины (движение)
+* @param {number} mY координата Y
+* @param {number} mX координата X
+* @return {void} Ничего не возвращает
 */
-function imgMove(mId, mX, mY) {
+function imgMove(mX, mY) {
     document.images[mId].style.top = mY;
     document.images[mId].style.left = mX;
 }
 
 /**
-*@description Смена вида из кабины (зум)
+* @description imgZoom Приближение фигуры
+* @param {number} zX координата Х
+* @param {number} zY координата Y
 */
-function imgZoom(zId, zX, zY) {
+function imgZoom(zX, zY) {
     document.images[zId].style.width = zX;
     document.images[zId].style.height = zY;
  

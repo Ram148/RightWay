@@ -279,37 +279,38 @@ function interval1() {
         level = 120;
         drift = 0;
         myVa = 0;
-
+    }
     /**
     * @description Стартовый экран (перезагрузка)
     */
-    if (sector < endSector) {
-        if (document.getElementById){
-            document.getElementById("OUT").style.top =  96;
-            document.getElementById("BTN").style.top =  140;
-            document.getElementById("arrow").style.top = 4;
+        if (sector < endSector) {
+            if (document.getElementById){
+                document.getElementById("OUT").style.top =  96;
+                document.getElementById("BTN").style.top =  140;
+                document.getElementById("arrow").style.top = 4;
+            } else {
+                OUT.style.top = 96;
+                BTN.style.top = 140;
+                arrow.style.top = 4;
+            }
         } else {
-            OUT.style.top = 96;
+            if (document.getElementById) {
+                if (sector == 50) {
+                    document.getElementById("miss").style.top = 96;
+                } else {
+                    document.getElementById("GOAL").style.top = 96;
+                }
+                document.getElementById("BTN").style.top = 140;
+                document.getElementById("arrow").style.top = 4;
+            } else {
+                if (sector == 50) {
+                miss.style.top = 96;
+                } else {
+                    GOAL.style.top = 96;
+                }
             BTN.style.top = 140;
             arrow.style.top = 4;
         }
-    } else {
-        if (document.getElementById) {
-            if (sector == 50) {
-                document.getElementById("miss").style.top = 96;
-            } else {
-                document.getElementById("GOAL").style.top = 96;
-            }
-            document.getElementById("BTN").style.top = 140;
-            document.getElementById("arrow").style.top = 4;
-        } else {
-            if (sector == 50) {
-            miss.style.top = 96;
-            } else {
-                GOAL.style.top = 96;
-            }
-        BTN.style.top = 140;
-        arrow.style.top = 4;
     }
 }
 
@@ -570,14 +571,14 @@ if (document.getElementById) {
     tmpA = tmpA * 6.2;
     tmpT = Math.atan2(4, pyZ[ia]) * 180 / Math.PI * 1.78;
     if (ia < wood) {
-       pXX = tmpT * 2.5;
-       imgZoom(ia, pXX, tmpT * 6);
-       imgMove(ia, tmpA + 280 - pXX / 2, level - tmpT * 4.66666666);
+        pXX = tmpT * 2.5;
+        imgZoom(ia, pXX, tmpT * 6);
+        imgMove(ia, tmpA + 280 - pXX / 2, level - tmpT * 4.66666666);
     } else {
-       pXX = tmpT / 2.5;
-       imgZoom(ia, pXX, tmpT);
-       imgMove(ia, tmpA + 280 - pXX / 2, tmpT / 3 + level);
-       }
+        pXX = tmpT / 2.5;
+        imgZoom(ia, pXX, tmpT);
+        imgMove(ia, tmpA + 280 - pXX / 2, tmpT / 3 + level);
+        }
     }
 }
 

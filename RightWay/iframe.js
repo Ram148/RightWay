@@ -121,8 +121,8 @@ function interval1() {
     keyLR = keyL + keyR;
 
     if (keyX != 0) {
-        if (keyLR !=0 ) {
-            if (speed !=0 ) {
+        if (keyLR != 0 ) {
+            if (speed != 0 ) {
                 drift = drift + keyLR * 2;
             }
         }

@@ -142,8 +142,7 @@ function interval1() {
     if (tmpscr == 0) {
         tmpSC0 = ".0";
     }
- 
-    document.forms[1].elements[0].value = pscr + tmpSC0;
+     document.forms[1].elements[0].value = pscr + tmpSC0;
     tmpVspeed = parseInt(speed * 60);
     document.forms[0].elements[0].value = tmpVspeed;
     tmpSec0 = parseInt((sector + 1) / 10);
@@ -159,12 +158,6 @@ function interval1() {
     showMap();
     keyLR = keyL + keyR;
 
-    /**
-    * @ description Занос при повороте
-    * @ var {number} drift	НЕКОНТРОЛИРУЕМЫЙ ПОВОРОТ ЭКРАНА
-    * @ var {number} myA		УГОЛ ПОВОРОТА
-    * @ var {number} myVa		СМЯГЧЕНИЕ ПРИ ПЕРЕБОРЕ
-    */
     if (keyX != 0) {
         if (keyLR !=0 ) {
             if (speed !=0 ) {
@@ -242,9 +235,7 @@ function interval1() {
     myX = myX + speed * Math.sin(myA / 180 * Math.PI);
     myY = myY + speed * Math.cos(myA / 180 * Math.PI);
     secCHK(sector);
-    /*
-    * @description замедление
-    */
+
     if (sector < endSector - 1) {
         tmpSec = sector;
         sector = 49;
@@ -254,14 +245,8 @@ function interval1() {
         }
     }
 
-    /**
-    * @description Показать столб при изменении координат (движении)
-    */
     showPylon(myX, myY, myVa);
 
-    /**
-    * @description Сколько столбов пройдено
-    */
     courseOutCHK();
 
     if (sector >= endSector) {
@@ -280,45 +265,41 @@ function interval1() {
         drift = 0;
         myVa = 0;
     }
-    /**
-    * @description Стартовый экран (перезагрузка)
-    */
-        if (sector < endSector) {
-            if (document.getElementById){
-                document.getElementById("OUT").style.top =  96;
-                document.getElementById("BTN").style.top =  140;
-                document.getElementById("arrow").style.top = 4;
-            } else {
-                OUT.style.top = 96;
-                BTN.style.top = 140;
-                arrow.style.top = 4;
-            }
+    if (sector < endSector) {
+        if (document.getElementById){
+            document.getElementById("OUT").style.top = 96;
+            document.getElementById("BTN").style.top = 140;
+            document.getElementById("arrow").style.top = 4;
         } else {
-            if (document.getElementById) {
-                if (sector == 50) {
-                    document.getElementById("miss").style.top = 96;
-                } else {
-                    document.getElementById("GOAL").style.top = 96;
-                }
-                document.getElementById("BTN").style.top = 140;
-                document.getElementById("arrow").style.top = 4;
+            OUT.style.top = 96;
+            BTN.style.top = 140;
+            arrow.style.top = 4;
+        }
+    } else {
+        if (document.getElementById) {
+            if (sector == 50) {
+                document.getElementById("miss").style.top = 96;
             } else {
-                if (sector == 50) {
+                document.getElementById("GOAL").style.top = 96;
+            }
+            document.getElementById("BTN").style.top = 140;
+            document.getElementById("arrow").style.top = 4;
+        } else {
+            if (sector == 50) {
                 miss.style.top = 96;
-                } else {
-                    GOAL.style.top = 96;
-                }
+            } else {
+                GOAL.style.top = 96;
+            }
             BTN.style.top = 140;
             arrow.style.top = 4;
         }
     }
 }
 
-    /**
-    * @description onLD Обновление столбов
-    * @return {void} Ничего не возвращает
-    */
-
+/**
+* @description onLD Обновление столбов
+* @return {void} Ничего не возвращает
+*/
 function onLD() {
     if (document.all) {
         window.focus();
@@ -341,6 +322,7 @@ function initG() {
     oldmyY = 0;
     sector = 0;
 }
+
 /**
 * @description t3R Отсчёт до старта (3!)
 * @return {void} Ничего не возвращает
@@ -500,23 +482,18 @@ function showMap() {
     } else {
         star.style.top = 54 - myY;
         star.style.left = 499 + myX;
-        }
+    }
 }
 
 /**
 * @description showPylon Показать столбы
 */
 function showPylon(epX, epY, epA) {
-if (document.getElementById) {
-    document.getElementById("Surface").style.top = level;
-} else {
-    Surface.style.top = level;
+    if (document.getElementById) {
+        document.getElementById("Surface").style.top = level;
+    } else {
+        Surface.style.top = level;
     }
-
-    /**
-    * @description Расположение элементов на экране и размер в зависимости от дистанции
-    */
-
     for (ia = 0; ia < wood + pylon; ia ++) {
         ttaX = pyX[ia] - epX;
         ttaY = pyY[ia] - epY;
@@ -552,9 +529,6 @@ if (document.getElementById) {
             }  
         }
     }
-
-
-
     /**
     * @description Расчёт координат машины игрока в данный момент
     */
@@ -568,16 +542,16 @@ if (document.getElementById) {
         if (tmpA < -180) {
             tmpA = tmpA + 360;
         }
-    tmpA = tmpA * 6.2;
-    tmpT = Math.atan2(4, pyZ[ia]) * 180 / Math.PI * 1.78;
-    if (ia < wood) {
-        pXX = tmpT * 2.5;
-        imgZoom(ia, pXX, tmpT * 6);
-        imgMove(ia, tmpA + 280 - pXX / 2, level - tmpT * 4.66666666);
-    } else {
-        pXX = tmpT / 2.5;
-        imgZoom(ia, pXX, tmpT);
-        imgMove(ia, tmpA + 280 - pXX / 2, tmpT / 3 + level);
+        tmpA = tmpA * 6.2;
+        tmpT = Math.atan2(4, pyZ[ia]) * 180 / Math.PI * 1.78;
+        if (ia < wood) {
+            pXX = tmpT * 2.5;
+            imgZoom(ia, pXX, tmpT * 6);
+            imgMove(ia, tmpA + 280 - pXX / 2, level - tmpT * 4.66666666);
+        } else {
+            pXX = tmpT / 2.5;
+            imgZoom(ia, pXX, tmpT);
+            imgMove(ia, tmpA + 280 - pXX / 2, tmpT / 3 + level);
         }
     }
 }
@@ -661,7 +635,6 @@ function secCHK(chNo) {
         }
     }
 }
-
 /**
 * @description imgMove Смена вида из кабины (движение)
 * @param {number} mY координата Y
@@ -681,7 +654,6 @@ function imgMove(mX, mY) {
 function imgZoom(zX, zY) {
     document.images[zId].style.width = zX;
     document.images[zId].style.height = zY;
- 
     for (ia = 0; ia < wood; ia ++) {
         document.write('<IMG ID="' + ia + '" src = "img/wood.gif" alt = "pylon" STYLE = "position : absolute);
         top : -1000px;

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article>
+    <articleinfo>
+        <title>Документация к проекту Right Way</title>
+        <authorgroup>
+            <author>
+                <firstname>Александр</firstname>
+                <surname>Пильненький</surname>
+            </author>
+        </authorgroup>
+    </articleinfo>
+    <section>
+        <title>О проекте</title>
+        <para>Запомни верный маршрут среди столбов и садись в трактор!</para>
+         <title>Об игре</title>
+<para>Игроку предстоит запомнить маршрут, указанный на мини-карте, а затем повторить его, объехав все препятствия в правильном направлении. При запуске игры на запоминание верного пути даётся три секунды.</para>
+    </section>
+    <section>
+        <title>Особенности игры</title>
+        <itemizedlist>
+        <listitem>Инерция при езде усложнит управление;</listitem>
+            <listitem>Открытие картинок на 2 секунды перед началом игры для их лучшего запоминания;</listitem>
+            <listitem>Необходимо следить за скоростью, иначе можно легко выехать за пределы поля, и игра окончится;</listitem>
+            <listitem>Отображение игрового счёта в виде времени прохождения игры и количества верно пройденных столбов;</listitem>
+            <listitem>Неповторимые текстуры;</listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Детали реализации</title>
+        <para>Особенности реализации представлены ниже:</para>
+        <section>
+            <title>Покачивание камеры при торможении</title>
+            <para>Реализация покачивания камеры представлена ниже. При торможении уровень зрения понижается(level принимает меньшее значение, камера "падает"), и наоборот - При ускорении уровень зрения повышается(level принимает большее значение, камера "задирается").</para>
+            <programlisting><![CDATA[
+    if (tmpOldSpeed < speed) {
+        level = 125;
+    } else {
+         if (tmpOldSpeed == speed) {
+             level = 120;
+         } else {
+             if (keyX != 0) {
+                 level = 115;
+             } else {
+                 level = 120;
+             }
+         }
+}
+                ]]></programlisting>
+        </section>
+        <section>
+            <title>Отображение мини-карты в правом верхнем углу</title>
+            <para>При перемещении игрока по полю, меняется его положение на мини-карте (обозначено звёздочкой). Для этого к координатам расположения карты добавляются/отнимаются координаты местоположения трактора</para>
+            <programlisting><![CDATA[
+    function showMap() {
+    if (document.getElementById) {
+        document.getElementById("star").style.top = 54 - myY;
+        document.getElementById("star").style.left = 499 + myX;
+    } else {
+        star.style.top = 54 - myY;
+        star.style.left = 499 + myX;
+        }
+}
+                ]]></programlisting>
+        </section>
+        <section>
+            <title>Проверка на выход за границы игрового поля</title>
+            <para>В случае выезда за границы поля, игра прекращается, а пользователю выводится сообщение, что он сбился с курса. После этого все данные откатываются до стартового положения (startFLG = 0).</para>
+            <programlisting><![CDATA[
+    function tourseOutCHK() {
+    if (myX <-5) {
+        startFLG = 0;
+    }
+    if (myX > 45) {
+        startFLG = 0;
+    }
+    if (myY < -10) {
+        startFLG = 0;
+    }
+    if (myY > 50) {
+        startFLG = 0;
+    }
+}
+                ]]></programlisting>
+
+        </section>
+            </section>
+</article>

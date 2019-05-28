@@ -18,7 +18,6 @@ var wood = 22;
 var pylon = 10;
 var drift = 0;
 var sector = 0; 
-
 var pyX = new Array(50);                           
 var pyY = new Array(50);  
  
@@ -118,11 +117,6 @@ function interval1() {
     }
 
     showMap();
-    keyLR = keyL + keyR;
-
-    if (keyX != 0) {
-        if (keyLR !=0 ) {
-            if (speed !=0 ) {
                 drift = drift + keyLR * 2;
             }
         }
@@ -150,7 +144,6 @@ function interval1() {
     if (myVa < -180) {   
         myVa = myVa + 360;
     }
-
     tmpOldSpeed = speed;
     speed = Math.sqrt(speed * speed + keyZ * power);
     tmpSP = 1;
@@ -166,7 +159,6 @@ function interval1() {
     }
  
     speed = Math.sqrt(tmpBp);
-
     if (tmpOldSpeed < speed) {
         level = 125;
     } else {
@@ -244,142 +236,4 @@ function interval1() {
             arrow.style.top = 4;
         }
     }
-}
-
-function onLD() {
-    if (document.all) {
-        window.focus();
-    }
-    a = 0;
-    showPylon(myX, myY, myVa);
-}
-
-function initG() {
-    showPylon(myX, myY, myVa);
-    showMap();
-    startFLG = 1;
-    keyL = 0;
-    keyR = 0;
-    oldmyX = 0;
-    oldmyY = 0;
-    sector = 0;
-}
-
-function t3R() {
-    if (document.getElementById) {
-        document.getElementById("T3").style.top = -1000;
-        document.getElementById("T2").style.top = 96;
-    } else {
-        t3.style.top = -1000;
-        t2.style.top = 96;
-    }
-    timerID = setTimeout("T2R()", 1000);
-}
-
-function t2R() {
-    if (document.getElementById) {
-        document.getElementById("T2").style.top = -1000;
-        document.getElementById("T1").style.top = 96;
-    } else {
-        t2.style.top = -1000;
-        t1.style.top = 96;
-    }
-    timerID = setTimeout("T1R()", 1000);
-}
-
-function t1R() {
-    if (document.getElementById) {
-        document.getElementById("arrow").style.top = -1000;
-        document.getElementById("T1").style.top = -1000;
-    } else {
-        arrow.style.top = -1000;
-        t1.style.top = -1000;
-    }
-    timerID = setTimeout("interval1()", 1);
-}
-
-function keyDown(DnEvents) {
-    if (document.all) {
-        k=window.event.keyCode;
-    } else {
-        k = DnEvents.which;
-    }
-    if (k == 68) {
-        keyR = 1;
-    }                     
-    if (k == 102) {
-        keyR = 1;
-    }                         
-    if (k == 39) {
-        keyR = 1;
-    }                         
-    if (k == 65) {
-        keyL = -1;
-    }                       
-    if (k == 100) {
-        keyL = -1;
-    }                      
-    if (k == 37) {
-        keyL = -1;
-    }                        
-    if (k == 87) {
-        keyZ = 1;
-    }                          
-    if (k == 122) {
-        keyZ = 1;
-    }                         
-    if (k == 83) {
-        keyX = 1;
-    }                          
-    if (k == 120) {
-        keyX = 1;
-    }                        
-    if (k == 83) {
-        if (startFLG == 0) {
-            initG();
-        }
-    }       
-    if (k == 115) {
-        if (startFLG == 0) {
-            initG();
-        }
-    }
-}
-
-function keyUp(UpEvents) {
-    if (document.all) {
-        k = window.event.keyCode;
-    } else {
-        k = UpEvents.which;
-    }
-    if (k == 102) {
-        keyR = 0;
-    }                         
-    if (k == 68) {
-        keyR = 0;
-    }                    
-    if (k == 100) {
-        keyL = 0;
-    }                       
-    if (k == 65) {
-        keyL = 0;
-    }                       
-    if (k == 37) {
-        keyL = 0;
-    }               
-    if (k == 39) {
-        keyR = 0;
-    }                        
-    if (k == 87) {
-        keyZ = 0;
-    }                      
-    if (k == 122) {
-        keyZ = 0;
-    }                    
-    if (k == 83) {
-        keyX = 0;
-    }                          
-    if (k == 120) {
-        keyX = 0;
-    }                         
 }

@@ -117,12 +117,6 @@ function interval1() {
     }
 
     showMap();
-
-    keyLR = keyL + keyR;
-
-    if (keyX != 0) {
-        if (keyLR != 0 ) {
-            if (speed != 0 ) {
                 drift = drift + keyLR * 2;
             }
         }
@@ -150,7 +144,6 @@ function interval1() {
     if (myVa < -180) {   
         myVa = myVa + 360;
     }
-                    
     tmpOldSpeed = speed;
     speed = Math.sqrt(speed * speed + keyZ * power);
     tmpSP = 1;
@@ -166,7 +159,6 @@ function interval1() {
     }
  
     speed = Math.sqrt(tmpBp);
-                  
     if (tmpOldSpeed < speed) {
         level = 125;
     } else {
